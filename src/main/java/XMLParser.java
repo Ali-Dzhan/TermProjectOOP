@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +15,8 @@ public class XMLParser {
     public void parse(String filePath) {
         State currentState = State.TEXT;
         StringBuilder currentToken = new StringBuilder();
+        boolean isClosingTag = false;
+        String currentElement = null;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             int ch;
@@ -22,23 +26,26 @@ public class XMLParser {
                 switch (currentState) {
                     case TEXT:
                         if (c == '<') {
-                            if (!currentToken.isEmpty()) {
-                                System.out.println("Text: " + currentToken.toString().trim());
-                                currentToken.setLength(0);
+                            String textContent = currentToken.toString().trim();
+                            if (currentElement != null && !textContent.isEmpty()) {
+                                String outputTag = currentElement.substring(0, 1).toUpperCase() + currentElement.substring(1);
+                                System.out.println(outputTag + ": " + textContent);
                             }
+                            currentToken.setLength(0);
                             currentState = State.OPEN_TAG;
+                            isClosingTag = false;
                         } else {
                             currentToken.append(c);
                         }
                         break;
 
                     case OPEN_TAG:
-                        if (Character.isLetter(c)) {
+                        if (c == '/') {
+                            isClosingTag = true;
+                        } else if (Character.isLetter(c)) {
                             currentState = State.TAG_NAME;
                             currentToken.setLength(0);
                             currentToken.append(c);
-                        } else {
-                            // За сега, по-късно символи които не започват с char
                         }
                         break;
 
@@ -47,15 +54,16 @@ public class XMLParser {
                             currentToken.append(c);
                         } else if (c == ' ' || c == '>') {
                             String tagName = currentToken.toString();
-                            System.out.println("Tag name: " + tagName);
 
-                            if (c == '>') {
-                                currentState = State.TEXT;
-                            } else {
-                                // За атрибути в бъдеще
-                                currentState = State.TEXT; // Само към текст засега
+                            if (!isClosingTag) {
+                                if (tagName.equalsIgnoreCase("title") || tagName.equalsIgnoreCase("author")) {
+                                    currentElement = tagName.toLowerCase();
+                                } else {
+                                    currentElement = null;
+                                }
                             }
-                            currentToken.setLength(0); // Зачистване на токена
+                            currentState = State.TEXT;
+                            currentToken.setLength(0);
                         }
                         break;
 
@@ -63,8 +71,10 @@ public class XMLParser {
                         break;
                 }
             }
-            if (!currentToken.isEmpty() && currentState == State.TEXT) {
-                System.out.println("Text: " + currentToken.toString().trim());
+            String remainingText = currentToken.toString().trim();
+            if (currentElement != null && !remainingText.isEmpty()) {
+                String outputTag = currentElement.substring(0, 1).toUpperCase() + currentElement.substring(1);
+                System.out.println(outputTag + ": " + remainingText);
             }
         } catch (IOException e) {
             e.printStackTrace();
