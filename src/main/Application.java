@@ -1,8 +1,10 @@
-package main.java;
+package main;
+
+import main.java.XmlParser;
 
 public class Application {
     public static void main(String[] args) {
-       XMLParser parser = new XMLParser();
+       XmlParser parser = new XmlParser();
 
        parser.parse("C:\\Users\\Ali\\IdeaProjects\\Term_Project_OOP\\src\\main\\recources\\sample.xml");
     }
