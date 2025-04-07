@@ -73,4 +73,35 @@ public class XmlElement {
     public void setTextContent(String text) {
         this.textContent = text;
     }
+
+    public void print(int indentLevel) {
+        String indent = "    ".repeat(indentLevel);
+
+        // Отварящ таг с атрибути
+        System.out.print(indent + "<" + name);
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            System.out.print(" " + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+
+        if (children.isEmpty() && getTextContent().isEmpty()) {
+            // Самозатварящ се таг
+            System.out.println(" />");
+            return;
+        }
+
+        System.out.println(">");
+
+        // Текстово съдържание (ако има)
+        if (!getTextContent().isEmpty()) {
+            System.out.println(indent + "    " + getTextContent());
+        }
+
+        // Деца (ако има)
+        for (XmlElement child : children) {
+            child.print(indentLevel + 1);
+        }
+
+        // Затварящ таг
+        System.out.println(indent + "</" + name + ">");
+    }
 }

@@ -7,5 +7,6 @@ public class Application {
        XmlParser parser = new XmlParser();
 
        parser.parse("C:\\Users\\Ali\\IdeaProjects\\Term_Project_OOP\\src\\main\\recources\\sample.xml");
+       parser.print();
     }
 }
