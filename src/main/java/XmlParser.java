@@ -80,8 +80,9 @@ public class XmlParser {
 
                         // ако няма ИД, създаваме такова
                         if (element.getId() == null) {
-                            String genId = "gen_" + generatedIdCounter++;
+                            String genId = "1_" + generatedIdCounter++;
                             element.setId(genId);
+                            element.setAttribute("id", genId);
                             usedIds.add(genId);
                             idMap.put(genId, element);
                         }
@@ -125,6 +126,21 @@ public class XmlParser {
             root.print(0);
         } else {
             System.out.println("No XML loaded.");
+        }
+    }
+
+    public void select(String id, String key) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        String value = element.getAttribute(key);
+        if (value == null) {
+            System.out.println("Attribute '" + key + "' not found.");
+        } else {
+            System.out.println("Value: " + value);
         }
     }
 }
