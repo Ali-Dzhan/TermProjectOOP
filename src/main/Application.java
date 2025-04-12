@@ -40,6 +40,14 @@ public class Application {
                     }
                     break;
 
+                case "set":
+                    if (parts.length == 4) {
+                        parser.set(parts[1], parts[2], parts[3]);
+                    } else {
+                        System.out.println("Usage: set <id> <key> <value>");
+                    }
+                    break;
+
                 case "exit":
                     System.out.println("Goodbye.");
                     return;

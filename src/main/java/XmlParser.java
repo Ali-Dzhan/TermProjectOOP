@@ -143,5 +143,16 @@ public class XmlParser {
             System.out.println("Value: " + value);
         }
     }
+
+    public void set(String id, String key, String value) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        element.setAttribute(key, value);
+        System.out.println("Attribute '" + key + "' set to '" + value + "' for element '" + id + "'.");
+    }
 }
 
