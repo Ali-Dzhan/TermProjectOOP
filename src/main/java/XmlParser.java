@@ -154,5 +154,58 @@ public class XmlParser {
         element.setAttribute(key, value);
         System.out.println("Attribute '" + key + "' set to '" + value + "' for element '" + id + "'.");
     }
+
+    public void delete(String id, String key) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        if (element.getAttribute(key) != null) {
+            element.removeAttribute(key);
+            System.out.println("Attribute '" + key + "' removed from element '" + id + "'.");
+        } else {
+            System.out.println("Attribute '" + key + "' not found on element '" + id + "'.");
+        }
+    }
+
+    public void newChild(String parentId) {
+        XmlElement parent = idMap.get(parentId);
+        if (parent == null) {
+            System.out.println("Element with id '" + parentId + "' not found.");
+            return;
+        }
+
+        String newId = "gen_" + generatedIdCounter++;
+        XmlElement child = new XmlElement("child");
+        child.setId(newId);
+        child.setAttribute("id", newId);
+
+        parent.addChild(child);
+        idMap.put(newId, child);
+
+        System.out.println("New child with id '" + newId + "' added to element '" + parentId + "'.");
+    }
+
+    public void children(String id) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        List<XmlElement> children = element.getChildren();
+        if (children.isEmpty()) {
+            System.out.println("Element '" + id + "' has no children.");
+            return;
+        }
+
+        System.out.println("Children of element '" + id + "':");
+        for (XmlElement child : children) {
+            System.out.println(" - <" + child.getName() + "> with id: " + child.getId());
+        }
+    }
+
 }
 

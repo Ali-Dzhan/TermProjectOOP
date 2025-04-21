@@ -48,6 +48,30 @@ public class Application {
                     }
                     break;
 
+                case "delete":
+                    if (parts.length == 3) {
+                        parser.delete(parts[1], parts[2]);
+                    } else {
+                        System.out.println("Usage: delete <id> <key>");
+                    }
+                    break;
+
+                case "newchild":
+                    if (parts.length == 2) {
+                        parser.newChild(parts[1]);
+                    } else {
+                        System.out.println("Usage: newchild <id>");
+                    }
+                    break;
+
+                case "children":
+                    if (parts.length == 2) {
+                        parser.children(parts[1]);
+                    } else {
+                        System.out.println("Usage: children <id>");
+                    }
+                    break;
+
                 case "exit":
                     System.out.println("Goodbye.");
                     return;
