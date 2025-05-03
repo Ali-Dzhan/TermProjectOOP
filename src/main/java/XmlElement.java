@@ -5,9 +5,9 @@ import java.util.*;
 public class XmlElement {
 
     private String id;
-    private String name;
-    private Map<String, String> attributes = new LinkedHashMap<>();
-    private List<XmlElement> children = new ArrayList<>();
+    private final String name;
+    private final Map<String, String> attributes = new LinkedHashMap<>();
+    private final List<XmlElement> children = new ArrayList<>();
     private String textContent = "";
 
     public XmlElement(String name) {

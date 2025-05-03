@@ -72,6 +72,27 @@ public class Application {
                     }
                     break;
 
+                case "child":
+                    if (parts.length == 3) {
+                        try {
+                            int index = Integer.parseInt(parts[2]);
+                            parser.child(parts[1], index);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Index must be an integer.");
+                        }
+                    } else {
+                        System.out.println("Usage: child <id> <n>");
+                    }
+                    break;
+
+                case "text":
+                    if (parts.length == 2) {
+                        parser.text(parts[1]);
+                    } else {
+                        System.out.println("Usage: text <id>");
+                    }
+                    break;
+
                 case "exit":
                     System.out.println("Goodbye.");
                     return;

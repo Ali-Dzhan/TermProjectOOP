@@ -8,8 +8,8 @@ import java.util.*;
 
 public class XmlParser {
 
-    private Map<String, XmlElement> idMap = new LinkedHashMap<>();
-    private Set<String> usedIds = new HashSet<>();
+    private final Map<String, XmlElement> idMap = new LinkedHashMap<>();
+    private final Set<String> usedIds = new HashSet<>();
     private int generatedIdCounter = 1;
     private XmlElement root;
 
@@ -207,5 +207,38 @@ public class XmlParser {
         }
     }
 
+    public void child(String id, int index) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        List<XmlElement> children = element.getChildren();
+        if (index < 0 || index >= children.size()) {
+            System.out.println("Index " + index + " is out of bounds for element '" + id + "'.");
+            return;
+        }
+
+        XmlElement child = children.get(index);
+        System.out.println("Child at index " + index + " of element '" + id + "':");
+        System.out.println(" - <" + child.getName() + "> with id: " + child.getId());
+    }
+
+    public void text(String id) {
+        XmlElement element = idMap.get(id);
+        if (element == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        String text = element.getTextContent();
+        if (text.isEmpty()) {
+            System.out.println("Element '" + id + "' has no text content.");
+        } else {
+            System.out.println("Text content of element '" + id + "':");
+            System.out.println(text);
+        }
+    }
 }
 
