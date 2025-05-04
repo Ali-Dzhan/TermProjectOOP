@@ -2,6 +2,7 @@ package main;
 
 import main.java.XmlParser;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Application {
@@ -90,6 +91,33 @@ public class Application {
                         parser.text(parts[1]);
                     } else {
                         System.out.println("Usage: text <id>");
+                    }
+                    break;
+
+                case "xpath":
+                    if (parts.length >= 3) {
+                        String id = parts[1];
+                        String query = String.join(" ",
+                                Arrays.copyOfRange(parts, 2, parts.length));
+                        parser.xpath(id, query);
+                    } else {
+                        System.out.println("Usage: xpath <id> <XPath query>");
+                    }
+                    break;
+
+                case "save":
+                    if (parts.length == 2) {
+                        parser.save(parts[1]);
+                    } else {
+                        System.out.println("Usage: save <filepath>");
+                    }
+                    break;
+
+                case "saveas":
+                    if (parts.length == 2) {
+                        parser.save(parts[1]);
+                    } else {
+                        System.out.println("Usage: saveas <filepath>");
                     }
                     break;
 

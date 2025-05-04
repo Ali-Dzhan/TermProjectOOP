@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.io.PrintWriter;
 import java.util.*;
 
 public class XmlParser {
 
+    private final XPathProcessor xpathProcessor = new XPathProcessor();
     private final Map<String, XmlElement> idMap = new LinkedHashMap<>();
     private final Set<String> usedIds = new HashSet<>();
     private int generatedIdCounter = 1;
@@ -239,6 +241,62 @@ public class XmlParser {
             System.out.println("Text content of element '" + id + "':");
             System.out.println(text);
         }
+    }
+
+    public void xpath(String id, String xpath) {
+        XmlElement root = idMap.get(id);
+        if (root == null) {
+            System.out.println("Element with id '" + id + "' not found.");
+            return;
+        }
+
+        List<XmlElement> result = xpathProcessor.evaluate(root, xpath, true);
+        if (!result.isEmpty()) {
+            System.out.println("Results for XPath '" + xpath + "':");
+            for (XmlElement el : result) {
+                System.out.println(" - <" + el.getName() + "> with id: " + el.getId());
+            }
+        }
+    }
+
+    public void save(String path) {
+        if (root == null) {
+            System.out.println("No XML loaded.");
+            return;
+        }
+
+        try (PrintWriter writer = new PrintWriter(path)) {
+            writeElement(writer, root, 0);
+            System.out.println("File saved to: " + path);
+        } catch (IOException e) {
+            System.out.println("Error saving file: " + e.getMessage());
+        }
+    }
+
+    private void writeElement(PrintWriter writer, XmlElement element, int indentLevel) {
+        String indent = "    ".repeat(indentLevel);
+
+        writer.print(indent + "<" + element.getName());
+        for (Map.Entry<String, String> attr : element.getAttributes().entrySet()) {
+            writer.print(" " + attr.getKey() + "=\"" + attr.getValue() + "\"");
+        }
+
+        if (element.getChildren().isEmpty() && element.getTextContent().isEmpty()) {
+            writer.println(" />");
+            return;
+        }
+
+        writer.println(">");
+
+        if (!element.getTextContent().isEmpty()) {
+            writer.println(indent + "    " + element.getTextContent());
+        }
+
+        for (XmlElement child : element.getChildren()) {
+            writeElement(writer, child, indentLevel + 1);
+        }
+
+        writer.println(indent + "</" + element.getName() + ">");
     }
 }
 
