@@ -38,6 +38,7 @@ public class Application {
                         parser.select(parts[1], parts[2]);
                     } else {
                         System.out.println("Usage: select <id> <key>");
+                        System.out.println("Example: select 1_2 id");
                     }
                     break;
 
@@ -46,6 +47,7 @@ public class Application {
                         parser.set(parts[1], parts[2], parts[3]);
                     } else {
                         System.out.println("Usage: set <id> <key> <value>");
+                        System.out.println("Example: set 1_2 genre Programming");
                     }
                     break;
 
@@ -102,6 +104,11 @@ public class Application {
                         parser.xpath(id, query);
                     } else {
                         System.out.println("Usage: xpath <id> <XPath query>");
+                        /* всички заглавия на книги - xpath 1_1 book/title
+                           заглавие на първата книга - xpath 1_1 book[0]/title
+                           ИД на всеки елемент - xpath 1_1 book(@id)
+                           Автор на книгата със заглавие - xpath 1_1 book(title="Clean Code")/author
+                         */
                     }
                     break;
 
