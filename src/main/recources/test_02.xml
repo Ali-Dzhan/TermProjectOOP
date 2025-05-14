@@ -1,0 +1,19 @@
+<library id="1_1">
+    <book id="1_2" genre="Programming">
+        <title id="1_3">
+            Effective Java
+        </title>
+        <author id="1_4">
+            Joshua Bloch
+        </author>
+    </book>
+    <book id="1_5">
+        <title id="1_6">
+            Clean Code
+        </title>
+        <author id="1_7">
+            Robert C. Martin
+        </author>
+    </book>
+    <child id="1_8" />
+</library>
