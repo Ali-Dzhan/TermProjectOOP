@@ -1,8 +1,5 @@
 package main.java.core;
 
-import main.java.XPathProcessor;
-import main.java.XmlElement;
-
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;

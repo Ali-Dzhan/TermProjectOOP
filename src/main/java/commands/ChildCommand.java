@@ -1,6 +1,6 @@
 package main.java.commands;
 
-import main.java.XmlElement;
+import main.java.core.XmlElement;
 import main.java.core.XmlParserContext;
 import main.java.interfaces.Command;
 
